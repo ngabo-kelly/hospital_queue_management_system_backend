@@ -25,17 +25,52 @@ public class NurseController {
             return ResponseEntity.status(HttpStatus.CREATED)
             .body(nurseService.saveNurse(nurse));
         }
+        @PatchMapping("/{nurseId}/counter")
+        public ResponseEntity<?> assignCounter(
+            @PathVariable UUID nurseId,
+            @RequestParam Integer counterNumber){
+
+                String message = nurseService.assignCounter(nurseId,counterNumber);
+
+                if(message.equals("The nurse with that id does not exist")
+                || message.equals("The counter with that number does not exist")){
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+                }else if (message.equals("The counter is taken by another nurse")){
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+                }else {
+                    return ResponseEntity.ok(message);
+                }
+            }
+        
 
         @GetMapping("/all")
         public ResponseEntity<List<Nurse>>getAll() {
             return ResponseEntity.ok(nurseService.getAllNurses());
         }
-        
+
         @GetMapping("/by-service")
         public List<Nurse>getNursesByService(
             @RequestParam String name) {
                 return nurseService.getNursesByServiceName(name);
             }
+
+            @PutMapping("/{nurseId}/services/{serviceId}")
+            public ResponseEntity<?>addServiceToNurse(
+                @PathVariable UUID nurseId,
+                @PathVariable UUID serviceId){
+
+                    String message = nurseService.addServiceToNurse(nurseId, serviceId);
+
+                    if( message.equals("The nurse with that id does not exist")
+                    || message.equals("The service with that id does not exist")){
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+                    }else if(message.equals("The nurse already has that service")){
+                        return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+                    }else {
+                        return ResponseEntity.ok(message);
+                    }
+                }
+            
         
 
         @GetMapping("/{id}")

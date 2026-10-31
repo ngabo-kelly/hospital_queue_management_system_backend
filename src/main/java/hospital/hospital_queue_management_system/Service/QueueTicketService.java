@@ -15,34 +15,78 @@ import java.util.UUID;
 @Service
 public class QueueTicketService {
 
-    @Autowired 
+    @Autowired
     private QueueTicketRepository ticketRepo;
 
-    public List<QueueTicket>getAllTickets() {
+    public List<QueueTicket> getAllTickets() {
         return ticketRepo.findAll();
     }
 
-    public Optional<QueueTicket>getTicketById(UUID id) {
+    public String updateTicketStatus(UUID id, TicketStatus newStatus) {
+        Optional<QueueTicket> optionalTicket = ticketRepo.findById(id);
+
+        if (optionalTicket.isEmpty()) {
+            return "The Queue ticket with that id does not exist";
+        }
+
+        QueueTicket ticket = optionalTicket.get();
+        TicketStatus currentStatus = ticket.getStatus();
+
+        boolean validChange = (currentStatus == TicketStatus.WAITING &&
+                (newStatus == TicketStatus.CALLED ||
+                        newStatus == TicketStatus.SKIPPED))
+                ||
+                (currentStatus == TicketStatus.CALLED &&
+                        (newStatus == TicketStatus.SERVED ||
+                                newStatus == TicketStatus.SKIPPED));
+
+        if (!validChange) {
+            return "Cannot change status from " +
+                    currentStatus + "to" + newStatus;
+        }
+        ticket.setStatus(newStatus);
+        ticketRepo.save(ticket);
+
+        return "Queue ticket status updated successfully";
+    }
+
+    public String saveTicket(QueueTicket ticket) {
+        if (ticket.getTicketDate().isBefore(LocalDate.now())) {
+            return "Queue ticket date cannot be in the past";
+        }
+
+        boolean alreadyHasTicket = ticketRepo.existsByNurse_IdAndTicketDateAndStatusNot(
+                ticket.getNurse().getId(),
+                ticket.getTicketDate(),
+                TicketStatus.SKIPPED
+
+        );
+        if (alreadyHasTicket) {
+            return "Nurse already has an active ticket on that date";
+        }
+
+        ticket.setStatus(TicketStatus.WAITING);
+        ticketRepo.save(ticket);
+        return "Queue ticket saved successfully";
+    }
+
+    public Optional<QueueTicket> getTicketById(UUID id) {
         return ticketRepo.findById(id);
 
     }
-    public List<QueueTicket>getTicketByStatus(TicketStatus status){
+
+    public List<QueueTicket> getTicketByStatus(TicketStatus status) {
         return ticketRepo.findByStatusOrderByTicketDateAsc(status);
     }
-    public List<QueueTicket>getTicketsBetweenDates(
-        LocalDate start,
-        LocalDate end){
-            return ticketRepo
-            .findByTicketDateBetweenOrderByTicketDateAsc(start,end);
-        }
-    
 
-    public String saveTicket(QueueTicket ticket){
-
-        return "Implement the updated rules";
+    public List<QueueTicket> getTicketsBetweenDates(
+            LocalDate start,
+            LocalDate end) {
+        return ticketRepo
+                .findByTicketDateBetweenOrderByTicketDateAsc(start, end);
     }
 
-    public String deleteTicket(UUID id){
+    public String deleteTicket(UUID id) {
 
         return "Implement the deletion rules";
     }

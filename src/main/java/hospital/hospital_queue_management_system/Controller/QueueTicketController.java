@@ -14,84 +14,100 @@ import java.util.Optional;
 import java.util.UUID;
 import java.time.LocalDate;
 
-@RestController 
+@RestController
 @RequestMapping("/api/queue-tickets")
 public class QueueTicketController {
 
-    @Autowired 
+    @Autowired
     private QueueTicketService ticketService;
 
     @PostMapping("/save")
 
     public ResponseEntity<String> save(
-        @RequestBody QueueTicket ticket) {
+            @RequestBody QueueTicket ticket) {
 
-            String message = ticketService.saveTicket(ticket);
+        String message = ticketService.saveTicket(ticket);
 
-            if (message.contains("past")){
-                return ResponseEntity.badRequest().body(message);
+        if (message.contains("past")) {
+            return ResponseEntity.badRequest().body(message);
         }
-        if (message.contains("does not exist")){
+        if (message.contains("does not exist")) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
         }
-        if(message.contains("active ticket")){
+        if (message.contains("active ticket")) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<?>getById(@PathVariable UUID id) {
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
         Optional<QueueTicket> result = ticketService.getTicketById(id);
 
-        if (result.isEmpty()){
+        if (result.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-            .body("The queue ticket with that id does not exist");
+                    .body("The queue ticket with that id does not exist");
         }
-            return ResponseEntity.ok(result.get());
+        return ResponseEntity.ok(result.get());
     }
-    @GetMapping("/between")
-    public List<QueueTicket>getTicketsBetweenDates(
-        @RequestParam String start,
-        @RequestParam String end){
 
-            LocalDate startDate = LocalDate.parse(start);
-            LocalDate endDate = LocalDate.parse(end);
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> updateTicketStatus(
+            @PathVariable UUID id,
+            @RequestParam TicketStatus status) {
 
-            return ticketService.getTicketsBetweenDates(startDate,endDate);
+        String message = ticketService.updateTicketStatus(id, status);
 
-
-        }
-    
-    @GetMapping("/by-status")
-    public List<QueueTicket>getTicketByStatus(
-        @RequestParam TicketStatus status){
-
-            return ticketService.getTicketByStatus(status);
-        }
-    
-    @PutMapping("/update/{id}")
-    public ResponseEntity<String>update(
-
-        @PathVariable UUID id,
-        @RequestBody QueueTicket ticket){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body("Queue ticket updates are not supported");
-        }
-        @DeleteMapping("/delete/{id}")
-        public ResponseEntity<String>delete(@PathVariable UUID id){
-            String message = ticketService.deleteTicket(id);
-
-            if (message.contains("does not exist")){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(message);
-            }
-            if (message.contains("service records")){
-                return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(message);
-            }
+        if (message.equals("The queue ticket with that id does not exist")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+        } else if (message.startsWith("Cannot change status")) {
+            return ResponseEntity.badRequest().body(message);
+        } else {
             return ResponseEntity.ok(message);
         }
-        
-    
+    }
+
+    @GetMapping("/between")
+    public List<QueueTicket> getTicketsBetweenDates(
+            @RequestParam String start,
+            @RequestParam String end) {
+
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+
+        return ticketService.getTicketsBetweenDates(startDate, endDate);
+
+    }
+
+    @GetMapping("/by-status")
+    public List<QueueTicket> getTicketByStatus(
+            @RequestParam TicketStatus status) {
+
+        return ticketService.getTicketByStatus(status);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> update(
+
+            @PathVariable UUID id,
+            @RequestBody QueueTicket ticket) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Queue ticket updates are not supported");
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable UUID id) {
+        String message = ticketService.deleteTicket(id);
+
+        if (message.contains("does not exist")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(message);
+        }
+        if (message.contains("service records")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(message);
+        }
+        return ResponseEntity.ok(message);
+    }
 
 }
