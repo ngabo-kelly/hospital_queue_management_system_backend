@@ -11,8 +11,8 @@ public class Outpatient {
     @GeneratedValue (strategy = GenerationType.UUID)
     private UUID id;
 
-    private String FirstName;
-    private String LastName;
+    private String firstName;
+    private String lastName;
 
     @Column (unique =true)
     private String fileNumber;
@@ -27,19 +27,19 @@ public class Outpatient {
         return id;
     }
     public String getFirstName() {
-        return FirstName;
+        return firstName;
 
     }
     public void setFirstName(String FirstName) {
-        this.FirstName = FirstName;
+        this.firstName = FirstName;
 
     }
     public String getLastName() {
-        return LastName;
+        return lastName;
 
     }
     public void setLastName(String LastName) {
-        this.LastName = LastName;
+        this.lastName = LastName;
     }
     public String getFileNumber() {
         return fileNumber;
