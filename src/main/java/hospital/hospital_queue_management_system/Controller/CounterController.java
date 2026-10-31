@@ -10,53 +10,58 @@ import org.springframework.web.bind.annotation.*;
 import hospital.hospital_queue_management_system.Entity.Counter;
 import hospital.hospital_queue_management_system.Service.CounterService;
 
-@RestController 
+@RestController
 @RequestMapping("/api/counters")
 public class CounterController {
 
     private final CounterService counterService;
 
-public CounterController(CounterService counterService){
-    this.counterService = counterService;
-}
+    public CounterController(CounterService counterService) {
+        this.counterService = counterService;
+    }
 
-@PostMapping("/save")
-public ResponseEntity<?>saveCounter(@RequestBody Counter counter){
-    Counter savedCounter = counterService.saveCounter(counter);
-    return ResponseEntity.status(HttpStatus.CREATED).body(savedCounter);
-} 
+    @PostMapping("/save")
+    public ResponseEntity<?> saveCounter(@RequestBody Counter counter) {
+        Counter savedCounter = counterService.saveCounter(counter);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCounter);
+    }
 
-@GetMapping("/all")
-public ResponseEntity<List<Counter>>getAllCounters(){
-    return ResponseEntity.ok(counterService.getAllCounters());
-}
-@GetMapping("/{id}")
-public ResponseEntity<?> getCounterById(@PathVariable UUID id ){
-    return counterService.getCounterById(id)
-    .<ResponseEntity<?>>map(ResponseEntity::ok)
-    .orElseGet(()-> ResponseEntity.status(HttpStatus.NOT_FOUND)
-    .body("The counter with that id does not exist"));
+    @GetMapping("/all")
+    public ResponseEntity<List<Counter>> getAllCounters() {
+        return ResponseEntity.ok(counterService.getAllCounters());
+    }
 
-}
-@PutMapping("/update/{id}")
-public ResponseEntity<?>updateCounter(
-    @PathVariable UUID id,
-    @RequestBody Counter counter) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCounterById(@PathVariable UUID id) {
+        return counterService.getCounterById(id)
+                .<ResponseEntity<?>>map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("The counter with that id does not exist"));
+
+    }
+    @GetMapping("/free")
+    public ResponseEntity<List<Counter>>getFreeCounters(){
+        return ResponseEntity.ok(counterService.getFreeCounters());
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateCounter(
+            @PathVariable UUID id,
+            @RequestBody Counter counter) {
 
         return counterService.updateCounter(id, counter)
-        .<ResponseEntity<?>>map(ResponseEntity::ok)
-        .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body("The counter with that id does not exist"));
+                .<ResponseEntity<?>>map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("The counter with that id does not exist"));
     }
+
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String>deleteCounter(@PathVariable UUID id) {
-        if (counterService.deleteCounter(id)){
+    public ResponseEntity<String> deleteCounter(@PathVariable UUID id) {
+        if (counterService.deleteCounter(id)) {
             return ResponseEntity.ok("Counter deleted successfully");
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body("The counter with that id does not exist");
+                .body("The counter with that id does not exist");
     }
-
-
 
 }

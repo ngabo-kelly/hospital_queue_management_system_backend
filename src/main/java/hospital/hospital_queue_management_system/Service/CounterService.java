@@ -22,6 +22,11 @@ public class CounterService {
     public List<Counter>getAllCounters(){
         return counterRepository.findAll();
     }
+
+    public List<Counter> getFreeCounters(){
+        return counterRepository.findFreeCounter();
+    } 
+    
     public Optional<Counter>getCounterById(UUID id) {
         return counterRepository.findById(id);
     }

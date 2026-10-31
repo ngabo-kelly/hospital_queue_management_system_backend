@@ -42,6 +42,11 @@ public class ServiceController {
             return ResponseEntity.ok(service.get());
         }
 
+        @GetMapping("/unused")
+        public List<Service>getUnsusedServices(){
+            return serviceService.getUnusedServices();
+        }
+
         @PutMapping("/update/{id}")
         public ResponseEntity<String> updateService(
             @PathVariable UUID id,

@@ -24,6 +24,12 @@ public class ServiceService {
     public List<hospital.hospital_queue_management_system.Entity.Service>getAllServices(){
         return serviceRepository.findAll();
     }
+    
+    public List<hospital.hospital_queue_management_system.Entity.Service>
+    getUnusedServices(){
+        return serviceRepository.findUnusedServices();
+    }
+
     public Optional<hospital.hospital_queue_management_system.Entity.Service>getServiceById(UUID id){
         return serviceRepository.findById(id);
     }

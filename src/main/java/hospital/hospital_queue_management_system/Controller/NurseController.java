@@ -30,6 +30,13 @@ public class NurseController {
         public ResponseEntity<List<Nurse>>getAll() {
             return ResponseEntity.ok(nurseService.getAllNurses());
         }
+        
+        @GetMapping("/by-service")
+        public List<Nurse>getNursesByService(
+            @RequestParam String name) {
+                return nurseService.getNursesByServiceName(name);
+            }
+        
 
         @GetMapping("/{id}")
         public ResponseEntity<?>getById(@PathVariable UUID id) {

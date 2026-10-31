@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 
 import hospital.hospital_queue_management_system.Entity.Outpatient;
 import hospital.hospital_queue_management_system.Repository.OutpatientRepository;
+import hospital.hospital_queue_management_system.Repository.NurseRepository;
+import hospital.hospital_queue_management_system.Entity.Nurse;
 
 @Service
 public class OutpatientService {
 
     @Autowired
     private OutpatientRepository outpatientRepository;
+    @Autowired 
+    private NurseRepository nurseRepository;
 
     public String saveOutpatient(Outpatient outpatient){
         outpatientRepository.save(outpatient);
@@ -23,6 +27,14 @@ public class OutpatientService {
     public List<Outpatient>getAllOutpatients(){
         return outpatientRepository.findAll();
     }
+
+    public List<Outpatient>getOutpatientsOfNurse(UUID nurseId){
+        if(!nurseRepository.existsById(nurseId)){
+            return null;
+        }
+        return outpatientRepository.findOutpatientByNurseId(nurseId);
+    }
+    
     public List<Outpatient>getOutpatientByLastName(String lastName){
         return outpatientRepository
         .findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);

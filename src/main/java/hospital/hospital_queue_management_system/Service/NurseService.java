@@ -25,6 +25,10 @@ public class NurseService {
         return nurseRepo.findAll();
 
     }
+    public List<Nurse>getNursesByServiceName(String name){
+        return nurseRepo.findNursesByServiceName(name);
+    }
+    
     public Optional<Nurse>getNurseById(UUID id){
         return nurseRepo.findById(id);
     }

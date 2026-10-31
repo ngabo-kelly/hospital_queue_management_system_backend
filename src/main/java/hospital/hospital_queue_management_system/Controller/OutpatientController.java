@@ -51,9 +51,22 @@ public class OutpatientController {
         @RequestParam String lastName){
             return outpatientService.getOutpatientByLastName(lastName);
         }
-    
+        
+@GetMapping("/of-nurse/{nurseId}")
+public ResponseEntity<?>getOutpatientsOfNurse(
+    @PathVariable UUID nurseId){
 
-    @PutMapping("/update/{id}")
+        List<Outpatient> result = outpatientService.getOutpatientsOfNurse(nurseId);
+
+        if (result ==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body("The nurse with that id does not exist");
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    
+        @PutMapping("/update/{id}")
     public ResponseEntity<String> updateOutpatient(
             @PathVariable UUID id,
             @RequestBody Outpatient updated) {
@@ -65,6 +78,7 @@ public class OutpatientController {
         }
         return ResponseEntity.ok(message);
     }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteOutpatient(@PathVariable UUID id) {
