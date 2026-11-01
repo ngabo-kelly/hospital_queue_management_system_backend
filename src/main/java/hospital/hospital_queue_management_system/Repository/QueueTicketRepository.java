@@ -17,6 +17,9 @@ import java.time.LocalDate;
 public interface QueueTicketRepository
         extends JpaRepository<QueueTicket, UUID> {
 
+            long countByTicketDate(LocalDate ticketDate);
+            long countByStatus(TicketStatus status);
+
     @Modifying
     @Transactional
     @Query("""
@@ -46,6 +49,13 @@ public interface QueueTicketRepository
             UUID nurseId,
             LocalDate ticketDate,
             TicketStatus status
+
+    );
+    boolean existsByNurse_IdAndTicketDateAndStatusNotAndIdNot(
+        UUID nurseId,
+        LocalDate ticketDate,
+        TicketStatus status,
+        UUID ticketId
 
     );
 

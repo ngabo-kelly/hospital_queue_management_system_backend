@@ -3,6 +3,8 @@ package hospital.hospital_queue_management_system.Controller;
 import hospital.hospital_queue_management_system.Entity.QueueTicket;
 import hospital.hospital_queue_management_system.Service.QueueTicketService;
 import hospital.hospital_queue_management_system.Entity.TicketStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,13 +42,22 @@ public class QueueTicketController {
         return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
 
+    @GetMapping("/page")
+    public Page<QueueTicket> getQueueTicketsPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "ticketDate,asc") String sort) {
+
+        return ticketService.getQueueTicketPage(page, size );
+    }
+
     @GetMapping("/all")
-    public List<QueueTicket>getAllTickets(){
+    public List<QueueTicket> getAllTickets() {
         return ticketService.getAllTickets();
     }
 
     @GetMapping("/stats/by-status")
-    public List<Object[]>getTicketStatistics(){
+    public List<Object[]> getTicketStatistics() {
         return ticketService.getTicketStatistics();
     }
 
@@ -101,8 +112,19 @@ public class QueueTicketController {
 
             @PathVariable UUID id,
             @RequestBody QueueTicket ticket) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body("Queue ticket updates are not supported");
+       
+                String message = ticketService.updateTicket(id,ticket);
+
+                if(message.contains("Does not exist")){
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+                }
+                if (message.equals("Nurse already has an active ticket on that date")){
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+                }
+                if (message.equals("Ticket date is required")){
+                    return ResponseEntity.badRequest().body(message);
+                }
+                return ResponseEntity.ok(message);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -121,17 +143,15 @@ public class QueueTicketController {
     }
 
     @PatchMapping("/cancel-day")
-    public ResponseEntity<String>cancelTicketsForNurse(
-        @RequestParam UUID nurseId,
-        @RequestParam String date){
+    public ResponseEntity<String> cancelTicketsForNurse(
+            @RequestParam UUID nurseId,
+            @RequestParam String date) {
 
-            String message = ticketService.cancelTicketsForNurse(
+        String message = ticketService.cancelTicketsForNurse(
                 nurseId,
-                LocalDate.parse(date)
-            );
+                LocalDate.parse(date));
 
-            return ResponseEntity.ok(message);
-        }
-    
+        return ResponseEntity.ok(message);
+    }
 
 }
