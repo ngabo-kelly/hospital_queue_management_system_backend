@@ -1,0 +1,750 @@
+{
+  "info": {
+    "_postman_id": "b71e80c2-7f13-4ef4-9e1b-8e91f4d3a821",
+    "name": "Hospital Queue Management System - Midterm",
+    "description": "Midterm API test collection. A2 contains CRUD requests for all five entities. Replace sample UUID variables with IDs from your database before testing. Confirm request body fields against your entity classes.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "A2 - CRUD Operations",
+      "item": [
+        {
+          "name": "Service CRUD",
+          "item": [
+            {
+              "name": "A2 - Save Service",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/services/save"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Consultation\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Get All Services",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/services/all"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Get Service by ID",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/services/{{serviceId}}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Update Service",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/services/update/{{serviceId}}"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Consultation\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Delete Service",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/services/delete/{{serviceId}}"
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Counter CRUD",
+          "item": [
+            {
+              "name": "A2 - Save Counter",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/counters/save"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"counterNumber\": 1,\n  \"name\": \"Counter 1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Get All Counters",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/counters/all"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Get Counter by ID",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/counters/{{counterId}}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Update Counter",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/counters/update/{{counterId}}"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"counterNumber\": 1,\n  \"name\": \"Counter 1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Delete Counter",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/counters/delete/{{counterId}}"
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Nurse CRUD",
+          "item": [
+            {
+              "name": "A2 - Save Nurse",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/nurses/save"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"Aline\",\n  \"lastName\": \"Mukamana\",\n  \"staffNumber\": \"NUR-001\",\n  \"counter\": {\n    \"id\": \"{{counterId}}\"\n  },\n  \"services\": [\n    {\n      \"id\": \"{{serviceId}}\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Get All Nurses",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/nurses/all"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Get Nurse by ID",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/nurses/{{nurseId}}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Update Nurse",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/nurses/update/{{nurseId}}"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"Aline\",\n  \"lastName\": \"Mukamana\",\n  \"staffNumber\": \"NUR-001\",\n  \"counter\": {\n    \"id\": \"{{counterId}}\"\n  },\n  \"services\": [\n    {\n      \"id\": \"{{serviceId}}\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Delete Nurse",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/nurses/delete/{{nurseId}}"
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Outpatient CRUD",
+          "item": [
+            {
+              "name": "A2 - Save Outpatient",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/outpatients/save"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"Jean\",\n  \"lastName\": \"Niyonsenga\",\n  \"fileNumber\": \"OP-2026-0345\",\n  \"phone\": \"0780000000\",\n  \"insurance\": \"RSSB\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Get All Outpatients",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/outpatients/all"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Get Outpatient by ID",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/outpatients/{{outpatientId}}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Update Outpatient",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/outpatients/update/{{outpatientId}}"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"Jean\",\n  \"lastName\": \"Niyonsenga\",\n  \"fileNumber\": \"OP-2026-0345\",\n  \"phone\": \"0780000000\",\n  \"insurance\": \"RSSB\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Delete Outpatient",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/outpatients/delete/{{outpatientId}}"
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Queue Ticket CRUD",
+          "item": [
+            {
+              "name": "A2 - Save Queue Ticket",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/queue-tickets/save"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ticketDate\": \"2026-11-01\",\n  \"status\": \"WAITING\",\n  \"ticketNumber\": 1,\n  \"outpatient\": {\n    \"id\": \"{{outpatientId}}\"\n  },\n  \"nurse\": {\n    \"id\": \"{{nurseId}}\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Get All Queue Tickets",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/queue-tickets/all"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Get Queue Ticket by ID",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/queue-tickets/{{queueTicketId}}"
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Update Queue Ticket",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/queue-tickets/update/{{queueTicketId}}"
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ticketDate\": \"2026-11-01\",\n  \"status\": \"WAITING\",\n  \"ticketNumber\": 1,\n  \"outpatient\": {\n    \"id\": \"{{outpatientId}}\"\n  },\n  \"nurse\": {\n    \"id\": \"{{nurseId}}\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "A2 - Delete Queue Ticket",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/queue-tickets/delete/{{queueTicketId}}"
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "B - Derived Queries",
+      "item": [
+        {
+          "name": "B1 - Find Outpatients by Last Name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/outpatients/by-last-name?lastName=mukamana"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "B2 - Find Queue Tickets by Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/queue-tickets/by-status?status=WAITING"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "B3 - Find Queue Tickets Between Dates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/queue-tickets/between?start=2026-10-01&end=2026-10-31"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "C - JPQL Queries",
+      "item": [
+        {
+          "name": "C1 - Find Nurses by Service",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/nurses/by-service?name=consult"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "C2 - Find Free Counters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/counters/free"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "C3 - Find Unused Services",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/services/unused"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "C4 - Find Outpatients of a Nurse",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/outpatients/of-nurse/{{nurseId}}"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "D - Business Rules",
+      "item": [
+        {
+          "name": "D1 - Save Queue Ticket with Validation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/queue-tickets/save"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ticketDate\": \"2026-11-01\",\n  \"ticketNumber\": 2,\n  \"outpatient\": {\n    \"id\": \"{{outpatientId}}\"\n  },\n  \"nurse\": {\n    \"id\": \"{{nurseId}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "The service should set status to WAITING. Use an eligible nurse and a valid date for the success case."
+          },
+          "response": []
+        },
+        {
+          "name": "D2 - Update Queue Ticket Status",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/queue-tickets/{{queueTicketId}}/status?status=CALLED"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "D3 - Add Service to Nurse",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/nurses/{{nurseId}}/services/{{serviceId}}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "D4 - Change Nurse Counter",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/nurses/{{nurseId}}/counter?counterNumber=4"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "E - Service Records",
+      "item": [
+        {
+          "name": "E1 - Save Service Record",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/service-records/save?queueTicketId={{queueTicketId}}"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"serviceName\": \"Blood pressure check\",\n  \"notes\": \"Routine check\",\n  \"durationMinutes\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Use a queue ticket whose status is SERVED."
+          },
+          "response": []
+        },
+        {
+          "name": "E2 - Find Service Records by Outpatient File Number",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/service-records/outpatient/OP-2026-0345"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "E3 - Delete Service Record",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/service-records/delete/{{serviceRecordId}}"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "F - Statistics and Bulk Update",
+      "item": [
+        {
+          "name": "F1 - Queue Ticket Statistics by Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/queue-tickets/stats/by-status"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "F2 - Cancel Nurse Tickets for a Date",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/queue-tickets/cancel-day?nurseId={{nurseId}}&date=2026-10-20"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Bonus Requirements",
+      "item": [
+        {
+          "name": "Bonus 1 - Dashboard Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/dashboard/summary"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Bonus 2 - Paginated Queue Tickets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/queue-tickets/page?page=0&size=5&sort=ticketDate,desc"
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8082",
+      "type": "string"
+    },
+    {
+      "key": "serviceId",
+      "value": "REPLACE_WITH_SERVICE_UUID",
+      "type": "string"
+    },
+    {
+      "key": "counterId",
+      "value": "REPLACE_WITH_COUNTER_UUID",
+      "type": "string"
+    },
+    {
+      "key": "nurseId",
+      "value": "REPLACE_WITH_NURSE_UUID",
+      "type": "string"
+    },
+    {
+      "key": "outpatientId",
+      "value": "REPLACE_WITH_OUTPATIENT_UUID",
+      "type": "string"
+    },
+    {
+      "key": "queueTicketId",
+      "value": "REPLACE_WITH_QUEUE_TICKET_UUID",
+      "type": "string"
+    },
+    {
+      "key": "serviceRecordId",
+      "value": "REPLACE_WITH_SERVICE_RECORD_UUID",
+      "type": "string"
+    }
+  ]
+}
