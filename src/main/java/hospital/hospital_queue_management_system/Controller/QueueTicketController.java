@@ -40,6 +40,11 @@ public class QueueTicketController {
         return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
 
+    @GetMapping("/all")
+    public List<QueueTicket>getAllTickets(){
+        return ticketService.getAllTickets();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
         Optional<QueueTicket> result = ticketService.getTicketById(id);

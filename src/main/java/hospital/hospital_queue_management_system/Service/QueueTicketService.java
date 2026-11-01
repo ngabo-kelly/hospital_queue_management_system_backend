@@ -3,7 +3,7 @@ package hospital.hospital_queue_management_system.Service;
 import hospital.hospital_queue_management_system.Entity.QueueTicket;
 import hospital.hospital_queue_management_system.Entity.TicketStatus;
 import hospital.hospital_queue_management_system.Repository.QueueTicketRepository;
-
+import hospital.hospital_queue_management_system.Repository.ServiceRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +14,13 @@ import java.util.UUID;
 
 @Service
 public class QueueTicketService {
-
+   
     @Autowired
     private QueueTicketRepository ticketRepo;
+
+     @Autowired 
+    private ServiceRecordRepository recordRepo;
+
 
     public List<QueueTicket> getAllTickets() {
         return ticketRepo.findAll();
