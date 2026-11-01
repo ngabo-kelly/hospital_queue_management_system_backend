@@ -45,6 +45,11 @@ public class QueueTicketController {
         return ticketService.getAllTickets();
     }
 
+    @GetMapping("/stats/by-status")
+    public List<Object[]>getTicketStatistics(){
+        return ticketService.getTicketStatistics();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
         Optional<QueueTicket> result = ticketService.getTicketById(id);
@@ -114,5 +119,19 @@ public class QueueTicketController {
         }
         return ResponseEntity.ok(message);
     }
+
+    @PatchMapping("/cancel-day")
+    public ResponseEntity<String>cancelTicketsForNurse(
+        @RequestParam UUID nurseId,
+        @RequestParam String date){
+
+            String message = ticketService.cancelTicketsForNurse(
+                nurseId,
+                LocalDate.parse(date)
+            );
+
+            return ResponseEntity.ok(message);
+        }
+    
 
 }

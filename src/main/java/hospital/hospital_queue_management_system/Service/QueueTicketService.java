@@ -14,6 +14,21 @@ import java.util.UUID;
 
 @Service
 public class QueueTicketService {
+
+    public String cancelTicketsForNurse(UUID nurseId, LocalDate date){
+
+        int numberOfTickets = ticketRepo.cancelTicketsForNurse(
+            nurseId,
+            date,
+            TicketStatus.SKIPPED,
+            TicketStatus.SERVED
+        );
+
+    return numberOfTickets + "Queue tickets Cancelled";
+    }
+    public List<Object[]>getTicketStatistics(){
+        return ticketRepo.countTicketsByStatus();
+    }
    
     @Autowired
     private QueueTicketRepository ticketRepo;
